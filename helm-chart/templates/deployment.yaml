@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    {{- toYaml .Values.deployment.labels | lower | nindent 4 }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels:
+      {{- toYaml .Values.deployment.selector | lower | nindent 6 }}
+  strategy:
+    {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- toYaml .Values.deployment.labels | lower | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-container
+        image: "{{ .Values.deployment.containers.repository }}:{{ .Values.deployment.containers.tag }}"
+        imagePullPolicy: {{ .Values.deployment.containers.pullPolicy }}
+        resources:
+          {{- toYaml .Values.deployment.resources | nindent 10 }}
+        ports:
+        - name: app-port
+          containerPort: 8080
+          protocol: TCP
+        startupProbe:
+          tcpSocket:
+            port: app-port
+          failureThreshold: 3
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: app-port
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: app-port
+          periodSeconds: 10
+          timeoutSeconds: 5

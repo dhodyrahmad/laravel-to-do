@@ -1,0 +1,46 @@
+# Default values for pwa-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+# This set up created by Dhody Rahmad Hidayat
+# as per requirements from Traveloka's Qualificaton
+
+deployment:
+  labels:
+    app: laravel-webserver
+
+  selector:
+    app: laravel-webserver
+
+  replicaCount : 1
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  containers:
+    repository: dhodyrhmd/laravel-apache
+    tag: "v1"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "1"
+    requests:
+      memory: "128Mi"
+      cpu: "0.1"
+
+service:
+  labels:
+    app: laravel-webserver
+
+  type: LoadBalancer
+
+  ports:
+    - port: 80
+      targetPort: 8080
+
+  selector:
+    app: laravel-webserver
