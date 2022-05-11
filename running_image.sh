@@ -2,12 +2,12 @@
 
 ########################################################
 
-## Shell Script to Build Docker Image   
+## Shell Script to Build Docker Image
 
 ########################################################
 
 IMAGE=dhodyrhmd/laravel-apache
-TAG=v1
+TAG=v2
 DIR=helm-chart
 RELEASE_NAME=laravel-webserver
 PWD=$(pwd)
