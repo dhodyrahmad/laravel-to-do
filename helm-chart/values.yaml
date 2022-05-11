@@ -21,8 +21,12 @@ deployment:
 
   containers:
     repository: dhodyrhmd/laravel-apache
-    tag: "v1"
+    tag: v2
     pullPolicy: IfNotPresent
+
+    db-repository: mysql
+    tag: "latest"
+    pullpolict: IfNotPresent
 
   resources:
     limits:

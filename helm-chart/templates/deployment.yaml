@@ -16,12 +16,36 @@ spec:
       labels:
         {{- toYaml .Values.deployment.labels | lower | nindent 8 }}
     spec:
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+      securityContext:
+        fsGroup: 33
+      initContainers:
+        - name: database-migrations
+          image: dhodyrhmd/laravel-apache:v2
+          imagePullPolicy: {{ .Values.deployment.containers.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: laravel-configmap
+            - secretRef:
+                name: laravel-secret
+          command: ["/bin/bash", "-c", "sleep 20 && php artisan migrate --force"]
       containers:
       - name: {{ .Release.Name }}-container
-        image: "{{ .Values.deployment.containers.repository }}:{{ .Values.deployment.containers.tag }}"
+        image: dhodyrhmd/laravel-apache:v2
         imagePullPolicy: {{ .Values.deployment.containers.pullPolicy }}
         resources:
           {{- toYaml .Values.deployment.resources | nindent 10 }}
+        securityContext:
+          runAsUser: 33
+        volumeMounts:
+          - name: logs
+            mountPath: /app/storage/logs
+          - name: cache
+            mountPath: /app/storage/framework/cache
         ports:
         - name: app-port
           containerPort: 8080
@@ -41,3 +65,8 @@ spec:
             port: app-port
           periodSeconds: 10
           timeoutSeconds: 5
+        envFrom:
+          - configMapRef:
+              name: laravel-configmap
+          - secretRef:
+              name: laravel-secret

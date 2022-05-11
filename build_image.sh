@@ -2,12 +2,12 @@
 
 ########################################################
 
-## Shell Script to Build Docker Image   
+## Shell Script to Build Docker Image
 
 ########################################################
 
 IMAGE=dhodyrhmd/laravel-apache
-TAG=v1
+TAG=v2
 DIR=laravel-project
 
 echo "building image..."
