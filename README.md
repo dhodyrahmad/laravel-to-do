@@ -82,6 +82,13 @@ As soon as the CPU load reaches 50%, HPA start scaling the number of replicas to
 
 You can learn further more about HPA on [This Blog](https://blog.flant.com/best-practices-for-deploying-highly-available-apps-in-kubernetes-part-2/) or on [Kubernetes itself](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/).
 
+## TEST API
+
+Running script test for API CRUD...
+
+1. Go to root repository on terminal
+2. Run `sh API.sh`
+3. you can change `request.json` file for `POST method` and `update.json` file for `PUT method`
 
 ## Further Improvements
 
