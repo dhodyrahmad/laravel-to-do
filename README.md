@@ -54,11 +54,19 @@ In case you want to rollback to V1 (image without CRUD API), you can change the 
 3. Deploy with `helm install <release-name> .` on `helm-chart` directory
 
 Or you can work with Helm Rollback:
+
 1. Show release name you want to rollback with `helm ls`
 2. Show history release with `helm history [release-name]`
 3. Rollback previous release with `helm rollback [release-name] [revision] [flag]`
 
 **[flag]: Optional command flags, such as --dry-run or --force**
+
+Or you can rollback with Kubernetes Rollback:
+
+1. Show rollout history with `kubectl rollout history deployment/[deployment-name]`
+2. You can rollback with specific version with `kubectl rollout undo deployment/[deployment-name] --to-version=[version-number]`
+3. To check revision number and yaml file set `kubectl get replicaset [replicaset-name] -o yaml
+`
 
 ## Scaling the application
 
