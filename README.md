@@ -53,6 +53,13 @@ In case you want to rollback to V1 (image without CRUD API), you can change the 
 2. Open `deployment.yaml` file, On [spec.template.spec.initContainers] and [spec.template.spec.containers] change image value to desired version. You can pull from DockerHub using default image `dhodyrhmd/laravel-apache:v1` or you can build by yourself within this repository.
 3. Deploy with `helm install <release-name> .` on `helm-chart` directory
 
+Or you can work with Helm Rollback:
+1. Show release name you want to rollback with `helm ls`
+2. Show history release with `helm history [release-name]`
+3. Rollback previous release with `helm rollback [release-name] [revision] [flag]`
+
+**[flag]: Optional command flags, such as --dry-run or --force**
+
 ## Scaling the application
 
 In production, we need the application to stand still working gracefully even if the traffic goes crazy. On Kubernetes, we can use Horizontal Pod Autoscaler (HPA) to increase availability of the service so the client won't bothered by the errors of traffic.
